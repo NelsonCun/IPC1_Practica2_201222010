@@ -57,7 +57,8 @@ public class IniciarViaje extends JFrame implements ActionListener {
             Viaje viajeTemp = new Viaje(Main.viajes.get(i).getNumeroViaje(),
                     Main.viajes.get(i).getInicio(),
             Main.viajes.get(i).getDestino(),
-            Main.viajes.get(i).getTransporte());
+            Main.viajes.get(i).getTransporte(),
+            Main.viajes.get(i).getDistancia());
             
             System.out.println("viaje: " + Main.viajes.get(i).getNumeroViaje()+
                     " inicio: " + Main.viajes.get(i).getInicio()+ " destino: "+

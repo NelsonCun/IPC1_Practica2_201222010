@@ -27,11 +27,12 @@ class Viaje extends JFrame implements ActionListener {
     private JButton btnIniciar, btnRegresar;
     public static int conteoViaje = 0;
 
-    public Viaje(int numeroViaje, String inicio, String destino, String transporte) {
+    public Viaje(int numeroViaje, String inicio, String destino, String transporte,float distancia) {
         this.inicio = inicio;
         this.destino = destino;
         this.transporte = transporte;
         this.numeroViaje = numeroViaje;
+        this.distancia = distancia;
         iniciarComponentes();
     }
 

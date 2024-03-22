@@ -14,7 +14,7 @@ import javax.swing.*;
 
 public class GenerarViaje extends JFrame implements ActionListener {
 
-    JLabel lblInicio, lblDestino, lblTransporte,lblDisponibilidad;
+    JLabel lblInicio, lblDestino, lblTransporte, lblDisponibilidad;
     JComboBox<String> cbxInicio, cbxDestino, cbxTransporte;
     JButton btnGenerar, btnCancelar;
 
@@ -45,22 +45,21 @@ public class GenerarViaje extends JFrame implements ActionListener {
         lblTransporte.setFont(new Font("Arial", Font.BOLD, 12));
         lblTransporte.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(lblTransporte);
-        
+
         //Label Disponibilidad pilotos
         lblDisponibilidad = new JLabel("No hay pilotos disponibles");
         lblDisponibilidad.setBounds(220, 110, 260, 30);
         lblDisponibilidad.setForeground(Color.red);
         lblDisponibilidad.setFont(new Font("Arial", Font.BOLD, 19));
         lblDisponibilidad.setHorizontalAlignment(SwingConstants.CENTER);
-        if (Main.viajes.size()<3) {
-           lblDisponibilidad.setVisible(false); 
+        if (Main.viajes.size() < 3) {
+            lblDisponibilidad.setVisible(false);
         } else {
-            lblDisponibilidad.setVisible(true); 
+            lblDisponibilidad.setVisible(true);
         }
         this.add(lblDisponibilidad);
 
         /////////////////////////////// COMBOBOX ////////////////////////////
-        
         cbxInicio = new JComboBox<>(Main.Lugares());
         cbxInicio.setBounds(50, 50, 150, 30);
         this.add(cbxInicio);
@@ -72,30 +71,29 @@ public class GenerarViaje extends JFrame implements ActionListener {
         cbxTransporte = new JComboBox<>(Main.Transportes());
         cbxTransporte.setBounds(300, 50, 150, 30);
         this.add(cbxTransporte);
-        
+
         /////////////////////////////// BOTONES /////////////////////////////
         //Botón para cancelar
         btnCancelar = new JButton("Cancelar");
-        btnCancelar.setBounds(75,170,150,30);
+        btnCancelar.setBounds(75, 170, 150, 30);
         btnCancelar.setForeground(Color.WHITE);
-        btnCancelar.setBackground(new Color(75,206,208));
+        btnCancelar.setBackground(new Color(75, 206, 208));
         btnCancelar.addActionListener(this);
         this.add(btnCancelar);
-        
+
         //Botón generar viaje
         btnGenerar = new JButton("Generar viaje");
-        btnGenerar.setBounds(275,170,150,30);
+        btnGenerar.setBounds(275, 170, 150, 30);
         btnGenerar.setForeground(Color.WHITE);
-        btnGenerar.setBackground(new Color(75,206,208));
-        if (Main.viajes.size()<3) {
-           btnGenerar.setEnabled(true); 
+        btnGenerar.setBackground(new Color(75, 206, 208));
+        if (Main.viajes.size() < 3) {
+            btnGenerar.setEnabled(true);
         } else {
-            btnGenerar.setEnabled(false); 
+            btnGenerar.setEnabled(false);
         }
         btnGenerar.addActionListener(this);
-        
+
         this.add(btnGenerar);
-        
 
         ///////////////////////// Config de ventana /////////////////////////
         this.setTitle("GENERAR VIAJE");
@@ -111,34 +109,46 @@ public class GenerarViaje extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource()==btnGenerar) {
+        if (ae.getSource() == btnGenerar) {
             String inicio = (String) cbxInicio.getSelectedItem();
             String fin = (String) cbxDestino.getSelectedItem();
             String transporte = (String) cbxTransporte.getSelectedItem();
-            if (inicio.equals("Seleccionar") ||fin.equals("Seleccionar")|| transporte.equals("Seleccionar")) {
+            if (inicio.equals("Seleccionar") || fin.equals("Seleccionar") || transporte.equals("Seleccionar")) {
                 JOptionPane.showMessageDialog(this, "Debe seleccionar una opción en cada campo", "ERROR", 0);
             } else {
-                Viaje newViaje = new Viaje(Viaje.conteoViaje,inicio,fin,transporte);
-                Main.addViaje(newViaje);
-                JOptionPane.showMessageDialog(null, "Viaje generado exitosamente",
-                "INFORMATION_MESSAGE", JOptionPane.INFORMATION_MESSAGE);
-                this.dispose();
-                if (Main.ventanaAbierta==0) {
-                MenuInicio newMenu = new MenuInicio();
-            } else if (Main.ventanaAbierta==1) {
-                IniciarViaje newInicio = new IniciarViaje();
+                boolean encontrado = false;
+                for (int i = 0; i < Main.rutas.size(); i++) {
+                    if ((Main.rutas.get(i).getInicio().equals(inicio) && Main.rutas.get(i).getFin().equals(fin))
+                            || (Main.rutas.get(i).getInicio().equals(fin) && Main.rutas.get(i).getFin().equals(inicio))) {
+                        Viaje newViaje = new Viaje(Viaje.conteoViaje, inicio, fin, transporte,Main.rutas.get(i).getDistancia());
+                        Main.addViaje(newViaje);
+                        JOptionPane.showMessageDialog(null, "Viaje generado exitosamente",
+                                "INFORMATION_MESSAGE", JOptionPane.INFORMATION_MESSAGE);
+                        this.dispose();
+                        if (Main.ventanaAbierta == 0) {
+                            MenuInicio newMenu = new MenuInicio();
+                        } else if (Main.ventanaAbierta == 1) {
+                            IniciarViaje newInicio = new IniciarViaje();
+                        }
+                        Viaje.conteoViaje = Viaje.conteoViaje + 1;
+                        encontrado = true;
+                        break;
+                    }
+                }
+                if (encontrado==false) {
+                    JOptionPane.showMessageDialog(this, "Esta ruta no existe en nuestro catálogo", "ERROR", 0);
+                }
+
             }
-                Viaje.conteoViaje = Viaje.conteoViaje+1;
-            }
-            
-        } else if (ae.getSource()==btnCancelar) {
+
+        } else if (ae.getSource() == btnCancelar) {
             this.dispose();
-            if (Main.ventanaAbierta==0) {
+            if (Main.ventanaAbierta == 0) {
                 MenuInicio newMenu = new MenuInicio();
-            } else if (Main.ventanaAbierta==1) {
+            } else if (Main.ventanaAbierta == 1) {
                 IniciarViaje newInicio = new IniciarViaje();
             }
-            
+
         }
     }
 }
