@@ -22,6 +22,7 @@ public class Main {
     static ArrayList<Ruta> rutas = new ArrayList<>();
     static ArrayList<Transporte> transportes = new ArrayList<>();
     static ArrayList<Viaje> viajes = new ArrayList<>();
+    static ArrayList<ViajeRealizado> viajesRealizados = new ArrayList<>();
 
     public static void main(String[] args) {
         try {
@@ -109,6 +110,23 @@ public class Main {
     
     public static void addViaje(Viaje viaje){
         viajes.add(viaje);
+    }
+    
+    public static void addViajeRealizado(ViajeRealizado viaje){
+        viajesRealizados.add(viaje);
+    }
+    
+    public static Object[][] Historial(){
+        String[][] arregloHistorial = new String[viajesRealizados.size()][6];
+        for (int i = 0; i < viajesRealizados.size(); i++) {
+            arregloHistorial[i][0] = ""+viajesRealizados.get(i).getId();
+            arregloHistorial[i][1] = viajesRealizados.get(i).getTiempoInicio();
+            arregloHistorial[i][2] = viajesRealizados.get(i).getTiempoFin();
+            arregloHistorial[i][3] = ""+viajesRealizados.get(i).getDistancia();
+            arregloHistorial[i][4] = viajesRealizados.get(i).getVehiculo();
+            arregloHistorial[i][5] = ""+viajesRealizados.get(i).getGasolina();
+        }
+        return arregloHistorial;
     }
 
 }

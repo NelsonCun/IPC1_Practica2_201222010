@@ -3,6 +3,8 @@ package ipc1_practica2_201222010;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.swing.*;
 
 /**
@@ -16,16 +18,20 @@ class Viaje extends JFrame implements ActionListener {
     private String destino;
     private String inicio;
     private int numeroViaje;
-    private JPanel jp1;
+    JPanel jp1;
     private JLabel lblTransporte;
     private JLabel lblDistancia;
     private JLabel lblDestino;
     private JLabel lblInicio;
-    private JLabel lblRecorrido;
-    private JLabel lblGasActual;
-    private JLabel lblPista,lblITransp;
-    private JButton btnIniciar, btnRegresar;
+    JLabel lblRecorrido;
+    JLabel lblGasActual;
+    JLabel lblPista;
+    JLabel lblITransp;
+    JButton btnIniciar;
     public static int conteoViaje = 0;
+    String fechaInicio;
+    String fechaFin;
+    ImageIcon imgT;
 
     public Viaje(int numeroViaje, String inicio, String destino, String transporte,float distancia) {
         this.inicio = inicio;
@@ -40,7 +46,6 @@ class Viaje extends JFrame implements ActionListener {
         // Panel
         jp1=new JPanel();
         jp1.setLayout(null);
-        //jp1.setBackground(Color.YELLOW);
         jp1.setPreferredSize(new Dimension(900, 120));
 
         //Label transporte
@@ -70,7 +75,7 @@ class Viaje extends JFrame implements ActionListener {
         //Label Inicio
         lblInicio = new JLabel("Inicio: " + this.getInicio());
         lblInicio.setFont(new Font("Arial",Font.BOLD,12));
-        lblInicio.setBounds(695,30,200,20);
+        lblInicio.setBounds(695,60,200,20);
         lblInicio.setForeground(Color.BLACK);
         lblInicio.setVerticalAlignment(SwingConstants.CENTER);
         jp1.add(lblInicio);
@@ -81,15 +86,8 @@ class Viaje extends JFrame implements ActionListener {
         btnIniciar.setBackground(Color.BLUE);
         btnIniciar.setForeground(Color.white);
         btnIniciar.setEnabled(true);
+        btnIniciar.addActionListener(this);
         jp1.add(btnIniciar);
-        
-        //Botón Regresar
-        btnRegresar = new JButton("Regresar");
-        btnRegresar.setBounds(695,60,100,25);
-        btnRegresar.setBackground(Color.BLUE);
-        btnRegresar.setForeground(Color.white);
-        btnRegresar.setEnabled(true);
-        jp1.add(btnRegresar);
         
         //Pista
         lblPista = new JLabel();
@@ -106,7 +104,7 @@ class Viaje extends JFrame implements ActionListener {
         //Imagen Transporte
         lblITransp = new JLabel();
         lblITransp.setBounds(125,50,75,56);
-        ImageIcon imgT = new ImageIcon(getClass().getResource("./images/imoto1.png"));
+        imgT = new ImageIcon(getClass().getResource("./images/imoto1.png"));
         if (this.getTransporte().equals("Motocicleta 1")) {
             imgT = new ImageIcon(getClass().getResource("./images/imoto1.png"));
         } else if (this.getTransporte().equals("Motocicleta 2")) {
@@ -140,7 +138,18 @@ class Viaje extends JFrame implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent ae) {
+        if (ae.getSource()==this.btnIniciar) {
+            Recorrido recorrido = new Recorrido(this,this.getDistancia());
+            System.out.println("Se inicia recorrido");
+            LocalDateTime horaInicio = LocalDateTime.now();
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+            fechaInicio = horaInicio.format(formato);
+            
+            System.out.println("Fecha inicio: "+ fechaInicio);
+            
+            recorrido.start();
+        }
     }
 
     /**

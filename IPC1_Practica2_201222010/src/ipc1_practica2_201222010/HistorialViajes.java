@@ -33,12 +33,12 @@ public class HistorialViajes extends JFrame implements ActionListener {
         
         ////////////////////////////////// TABLA VIAJES ///////////////////////////////
         String[] titulos_v = {"Código", "Fecha y hora inicio","Fecha y hora fin","Distancia (km)","Vehículo","Gasolina consumida"};
-        String[][] viajes = {{"001","03-05-2024 10:00","03-05-2024 12:00","35","Estándar","2"},
-            {"002","06-05-2024 08:00","06-05-2024 10:00","13","Moto","3"},
-        {"003","06-05-2024 12:00","06-05-2024 13:00","5","Premium","1"},
-        {"004","07-05-2024 13:00","07-05-2024 17:00","20","Moto","12"},
-        {"005","07-05-2024 14:00","07-05-2024 20:00","27","Premium","15"}};
-        historial = new JTable(viajes,titulos_v);
+        //String[][] viajes = {{"001","03-05-2024 10:00","03-05-2024 12:00","35","Estándar","2"},
+          //  {"002","06-05-2024 08:00","06-05-2024 10:00","13","Moto","3"},
+        //{"003","06-05-2024 12:00","06-05-2024 13:00","5","Premium","1"},
+        //{"004","07-05-2024 13:00","07-05-2024 17:00","20","Moto","12"},
+        //{"005","07-05-2024 14:00","07-05-2024 20:00","27","Premium","15"}};
+        historial = new JTable(Main.Historial(),titulos_v);
         DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
         for (int i = 0; i < titulos_v.length; i++) {
             historial.getColumnModel().getColumn(i).setCellRenderer(Alinear);
