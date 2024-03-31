@@ -165,7 +165,7 @@ public class MenuInicio extends JFrame implements ActionListener {
 
         @Override
         public void paint(Graphics g) {
-            imagen = new ImageIcon(getClass().getResource("./Images/iMenuInicio.png")).getImage();
+            imagen = new ImageIcon(getClass().getResource("/ipc1_practica2_201222010/Images/iMenuInicio.png")).getImage();
             g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
             setOpaque(false);
             super.paint(g);

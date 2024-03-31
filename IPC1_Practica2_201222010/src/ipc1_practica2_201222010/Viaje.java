@@ -92,7 +92,7 @@ class Viaje extends JFrame implements ActionListener {
         //Pista
         lblPista = new JLabel();
         lblPista.setBounds(125,105,565,10);
-        ImageIcon img = new ImageIcon(getClass().getResource("./images/iCarretera.png"));
+        ImageIcon img = new ImageIcon(getClass().getResource("/ipc1_practica2_201222010/Images/iCarretera.png"));
         Image nuevo = img.getImage().getScaledInstance(565,10,Image.SCALE_SMOOTH);
         lblPista.setHorizontalAlignment(SwingConstants.CENTER);
         lblPista.setVerticalAlignment(SwingConstants.CENTER);
@@ -104,25 +104,25 @@ class Viaje extends JFrame implements ActionListener {
         //Imagen Transporte
         lblITransp = new JLabel();
         lblITransp.setBounds(125,50,75,56);
-        imgT = new ImageIcon(getClass().getResource("./images/imoto1.png"));
+        imgT = new ImageIcon(getClass().getResource("/ipc1_practica2_201222010/Images/imoto1.png"));
         if (this.getTransporte().equals("Motocicleta 1")) {
-            imgT = new ImageIcon(getClass().getResource("./images/imoto1.png"));
+            imgT = new ImageIcon(getClass().getResource("/ipc1_practica2_201222010/Images/imoto1.png"));
         } else if (this.getTransporte().equals("Motocicleta 2")) {
-            imgT = new ImageIcon(getClass().getResource("./images/imoto2.png"));
+            imgT = new ImageIcon(getClass().getResource("/ipc1_practica2_201222010/Images/imoto2.png"));
         } else if (this.getTransporte().equals("Motocicleta 3")) {
-            imgT = new ImageIcon(getClass().getResource("./images/imoto3.png"));
+            imgT = new ImageIcon(getClass().getResource("/ipc1_practica2_201222010/Images/imoto3.png"));
         } else if (this.getTransporte().equals("Vehículo estándar 1")) {
-            imgT = new ImageIcon(getClass().getResource("./images/iestandar1.png"));
+            imgT = new ImageIcon(getClass().getResource("/ipc1_practica2_201222010/Images/iestandar1.png"));
         } else if (this.getTransporte().equals("Vehículo estándar 2")) {
-            imgT = new ImageIcon(getClass().getResource("./images/iestandar2.png"));
+            imgT = new ImageIcon(getClass().getResource("/ipc1_practica2_201222010/Images/iestandar2.png"));
         } else if (this.getTransporte().equals("Vehículo estándar 3")) {
-            imgT = new ImageIcon(getClass().getResource("./images/iestandar3.png"));
+            imgT = new ImageIcon(getClass().getResource("/ipc1_practica2_201222010/Images/iestandar3.png"));
         } else if (this.getTransporte().equals("Vehículo prémium 1")) {
-            imgT = new ImageIcon(getClass().getResource("./images/ipremium1.png"));
+            imgT = new ImageIcon(getClass().getResource("/ipc1_practica2_201222010/Images/ipremium1.png"));
         } else if (this.getTransporte().equals("Vehículo prémium 2")) {
-            imgT = new ImageIcon(getClass().getResource("./images/ipremium2.png"));
+            imgT = new ImageIcon(getClass().getResource("/ipc1_practica2_201222010/Images/ipremium2.png"));
         } else if (this.getTransporte().equals("Vehículo prémium 3")) {
-            imgT = new ImageIcon(getClass().getResource("./images/ipremium3.png"));
+            imgT = new ImageIcon(getClass().getResource("/ipc1_practica2_201222010/Images/ipremium3.png"));
         }
         
         Image nuevoT = imgT.getImage().getScaledInstance(75,56,Image.SCALE_SMOOTH);

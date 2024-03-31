@@ -149,7 +149,7 @@ public class Login extends JFrame implements ActionListener, FocusListener {
 
         @Override
         public void paint(Graphics g) {
-            imagen = new ImageIcon(getClass().getResource("./Images/iLogin.gif")).getImage();
+            imagen = new ImageIcon(getClass().getResource("/ipc1_practica2_201222010/Images/iLogin.gif")).getImage();
             g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
             setOpaque(false);
             super.paint(g);
