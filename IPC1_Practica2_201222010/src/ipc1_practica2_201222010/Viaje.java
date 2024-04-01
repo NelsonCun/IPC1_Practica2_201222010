@@ -142,6 +142,7 @@ class Viaje extends JFrame implements ActionListener,Serializable {
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource()==this.btnIniciar) {
             Recorrido recorrido = new Recorrido(this,this.getDistancia());
+            Main.addRecorrido(recorrido);
             System.out.println("Se inicia recorrido");
             LocalDateTime horaInicio = LocalDateTime.now();
             DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");

@@ -28,6 +28,7 @@ public class Main {
     static ArrayList<Transporte> transportes = new ArrayList<>();
     static ArrayList<Viaje> viajes = new ArrayList<Viaje>();
     static ArrayList<ViajeRealizado> viajesRealizados = new ArrayList<ViajeRealizado>();
+    static ArrayList<Recorrido> recorridos = new ArrayList<Recorrido>();
 
     public static void main(String[] args) {
         try {
@@ -40,19 +41,27 @@ public class Main {
         addTransporte();
 
         viajesRealizados = (ArrayList<ViajeRealizado>) LeerArchivoHistorial();
-        viajes = (ArrayList<Viaje>) LeerArchivoViajes();
+        //viajes = (ArrayList<Viaje>) LeerArchivoViajes();
+        recorridos = (ArrayList<Recorrido>) LeerArchivoRecorridos();
         // Validamos si animals no es nulo
         if (viajesRealizados == null) {
             viajesRealizados = new ArrayList<ViajeRealizado>();
         }
-        if (viajes == null) {
-            viajes = new ArrayList<Viaje>();
+        if (recorridos == null) {
+            //viajes = new ArrayList<Viaje>();
+            recorridos = new ArrayList<Recorrido>();
         }
 
-        for (Viaje viajex : viajes) {
+        /*for (Viaje viajex : viajes) {
             Recorrido recorrido = new Recorrido(viajex, viajex.getDistancia());
             Thread recorridoThread = new Thread(recorrido);
 
+            recorridoThread.start();
+        }*/
+        for (int i = 0; i <recorridos.size(); i++) {
+            //recorridos.get(i).start();
+            viajes.add(recorridos.get(i).getViaje());
+            Thread recorridoThread = new Thread (recorridos.get(i));
             recorridoThread.start();
         }
     }
@@ -148,6 +157,10 @@ public class Main {
     public static void addViaje(Viaje viaje) {
         viajes.add(viaje);
     }
+    
+    public static void addRecorrido(Recorrido recorrido){
+        recorridos.add(recorrido);
+    }
 
     public static void addViajeRealizado(ViajeRealizado viaje) {
         viajesRealizados.add(viaje);
@@ -231,6 +244,42 @@ public class Main {
             System.out.println("Lista de viajes en curso deserializada correctamente.");
             // Retornamos el objeto
             return viajes;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        // Si no existe ningun archivo o si ocurre un error, se retorna null
+        return null;
+    }
+    
+    public static void EscribirArchivoRecorridos() {
+        // Serialización de la lista
+        try {
+            // Creamos el archivo binario en la ruta especificada
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("./Archivos/Recorridos.bin"));
+            // Escribimos nuestro ArrayList de tipo Animal
+            out.writeObject(recorridos);
+            // Cerramos el archivo
+            out.close();
+            System.out.println("***********************************************************************");
+            System.out.println("Lista de recorridos en curso serializada correctamente.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("***********************************************************************");
+    }
+
+    public static Object LeerArchivoRecorridos() {
+        // Deserialización de la lista
+        try {
+            // Abrimos el archivo binario en la ruta especificada
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream("./Archivos/Recorridos.bin"));
+            // Leemos el objeto guardado (Arraylist de tipo Animal) y lo guardamos en un Arryalist del mismo tipo
+            ArrayList<Recorrido> recorridos = (ArrayList<Recorrido>) in.readObject();
+            // Cerramos el archivo
+            in.close();
+            System.out.println("Lista de recorridos en curso deserializada correctamente.");
+            // Retornamos el objeto
+            return recorridos;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

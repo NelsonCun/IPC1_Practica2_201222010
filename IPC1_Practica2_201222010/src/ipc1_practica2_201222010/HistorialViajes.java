@@ -75,6 +75,7 @@ public class HistorialViajes extends JFrame implements ActionListener {
                 System.out.println("La ventana se está cerrando...");
                 Main.EscribirArchivoHistorial();
                 Main.EscribirArchivoViajes();
+                Main.EscribirArchivoRecorridos();
             }
         });
 

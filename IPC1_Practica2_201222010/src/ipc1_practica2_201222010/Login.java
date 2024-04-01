@@ -103,6 +103,7 @@ public class Login extends JFrame implements ActionListener, FocusListener {
                 System.out.println("La ventana se está cerrando...");
                 Main.EscribirArchivoHistorial();
                 Main.EscribirArchivoViajes();
+                Main.EscribirArchivoRecorridos();
             }
         });
 

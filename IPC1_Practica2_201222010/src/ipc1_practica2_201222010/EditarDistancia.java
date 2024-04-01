@@ -88,6 +88,7 @@ public class EditarDistancia extends JFrame implements ActionListener, KeyListen
                 System.out.println("La ventana se está cerrando...");
                 Main.EscribirArchivoHistorial();
                 Main.EscribirArchivoViajes();
+                Main.EscribirArchivoRecorridos();
             }
         });
 

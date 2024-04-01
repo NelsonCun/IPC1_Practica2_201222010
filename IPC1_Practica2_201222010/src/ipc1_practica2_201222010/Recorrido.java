@@ -17,15 +17,16 @@ import javax.swing.JLabel;
  */
 class Recorrido extends Thread implements ActionListener, Serializable {
 
-    Viaje viaje;
+    private Viaje viaje;
     private int kilometrosR = 0;
     private float combustibleGastado = 0;
     private volatile boolean running = true;
-    int posX, posY;
-    float capacidadTanque = 0;
-    float gastoKm = 0;
-    JButton btnRecargar;
-    JButton btnRegresar;
+    private int posX;
+    private int posY;
+    private float capacidadTanque = 0;
+    private float gastoKm = 0;
+    private JButton btnRecargar;
+    private JButton btnRegresar;
     private volatile boolean parte1 = false;
 
     public Recorrido(Viaje viaje, float Distancia) {
@@ -47,7 +48,7 @@ class Recorrido extends Thread implements ActionListener, Serializable {
                 gastoKm = Main.transportes.get(i).getGastoCombustible();
             }
         }
-        this.viaje.lblGasActual = new JLabel("Gasolina Actual = " + capacidadTanque);
+        this.viaje.lblGasActual = new JLabel("Gasolina Actual = " + getCapacidadTanque());
         this.viaje.lblGasActual.setFont(new Font("Arial", Font.BOLD, 10));
         this.viaje.lblGasActual.setBounds(posX - 10, posY - 12, 150, 30);
         this.viaje.lblGasActual.setVisible(true);
@@ -76,81 +77,82 @@ class Recorrido extends Thread implements ActionListener, Serializable {
 
     @Override
     public void run() {
-        if (parte1 == false) {
-            while (running) {
+        if (isParte1() == false) {
+            while (isRunning()) {
                 try {
-                    if (this.posX < 610) {
-                        float velocidad = 495 / this.viaje.getDistancia();
+                    if (this.getPosX() < 610) {
+                        float velocidad = 495 / this.getViaje().getDistancia();
                         int intVelocidad = (int) velocidad;
-                        posX = posX + intVelocidad;
-                        capacidadTanque = capacidadTanque - gastoKm;
+                        setPosX(getPosX() + intVelocidad);
+                        setCapacidadTanque(getCapacidadTanque() - getGastoKm());
                     } else {
                         detenerRecorrido();
-                        btnRegresar.setEnabled(true);
+                        getBtnRegresar().setEnabled(true);
                     }
                     sleep(1000);
 
-                    if (running) {
-                        kilometrosR++;
-                        combustibleGastado = combustibleGastado+gastoKm;
+                    if (isRunning()) {
+                        setKilometrosR(getKilometrosR() + 1);
+                        setCombustibleGastado(getCombustibleGastado() + getGastoKm());
                     }
-                    if (capacidadTanque <= 0) {
+                    if (getCapacidadTanque() <= 0) {
                         detenerRecorrido();
-                        btnRecargar.setVisible(true);
+                        getBtnRecargar().setVisible(true);
                     }
                     actualizarRecorrido();
-                    this.viaje.lblITransp.setLocation(posX, posY);
-                    this.viaje.lblRecorrido.setLocation(posX - 10, posY - 25);
-                    this.viaje.lblGasActual.setLocation(posX - 10, posY - 12);
-                    btnRecargar.setLocation(posX, posY - 45);
+                    this.getViaje().lblITransp.setLocation(getPosX(), getPosY());
+                    this.getViaje().lblRecorrido.setLocation(getPosX() - 10, getPosY() - 25);
+                    this.getViaje().lblGasActual.setLocation(getPosX() - 10, getPosY() - 12);
+                    getBtnRecargar().setLocation(getPosX(), getPosY() - 45);
                 } catch (Exception e) {
                     System.out.println(e);
                 }
             }
-        } else if (parte1) {
+        } else if (isParte1()) {
          
-            while (running) {
+            while (isRunning()) {
                 try {
-                    if (this.posX > 125) {
-                        float velocidad = 495 / this.viaje.getDistancia();
+                    if (this.getPosX() > 125) {
+                        float velocidad = 495 / this.getViaje().getDistancia();
                         int intVelocidad = (int) velocidad;
-                        posX = posX - intVelocidad;
-                        capacidadTanque = capacidadTanque - gastoKm;
+                        setPosX(getPosX() - intVelocidad);
+                        setCapacidadTanque(getCapacidadTanque() - getGastoKm());
                     } else {
                         detenerRecorrido();
                         LocalDateTime horaFin = LocalDateTime.now();
                         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
                         this.viaje.fechaFin = horaFin.format(formato);
 
-                        System.out.println("Fecha inicio: " + this.viaje.fechaFin);
+                        System.out.println("Fecha inicio: " + this.getViaje().fechaFin);
                         
-                        ViajeRealizado newViaje = new ViajeRealizado(this.viaje.fechaInicio,this.viaje.fechaFin,kilometrosR,this.viaje.getTransporte(),combustibleGastado);
+                        ViajeRealizado newViaje = new ViajeRealizado(this.getViaje().fechaInicio,this.getViaje().fechaFin,getKilometrosR(), this.getViaje().getTransporte(), getCombustibleGastado());
                         Main.addViajeRealizado(newViaje);
                         ViajeRealizado.numero ++;
                         
                         for (int i = 0; i < Main.viajes.size(); i++) {
-                            if (this.viaje.getTransporte().equals(Main.viajes.get(i).getTransporte())) {
+                            if (this.getViaje().getTransporte().equals(Main.viajes.get(i).getTransporte())) {
                                 Viaje.conteoViaje = Main.viajes.get(i).getNumeroViaje();
                                 Main.viajes.remove(i);
+                                Main.recorridos.remove(i);
                             }
                         }
 
                     }
                     sleep(1000);
 
-                    if (running) {
-                        kilometrosR++;
-                        combustibleGastado = combustibleGastado+gastoKm;
+                    if (isRunning()) {
+                        setKilometrosR(getKilometrosR() + 1);
+                        setCombustibleGastado(getCombustibleGastado() + getGastoKm());
                     }
-                    if (capacidadTanque <= 0) {
+                    if (getCapacidadTanque() <= 0) {
                         detenerRecorrido();
-                        btnRecargar.setVisible(true);
+                        getBtnRecargar().setVisible(true);
                     }
                     actualizarRecorrido();
-                    this.viaje.lblITransp.setLocation(posX, posY);
-                    this.viaje.lblRecorrido.setLocation(posX - 10, posY - 25);
-                    this.viaje.lblGasActual.setLocation(posX - 10, posY - 12);
-                    btnRecargar.setLocation(posX, posY - 45);
+                    this.getViaje().lblITransp.setLocation(getPosX(), getPosY());
+                    this.getViaje().lblRecorrido.setLocation(getPosX() - 10, getPosY() - 25);
+                    this.getViaje().lblGasActual.setLocation(getPosX() - 10, getPosY() - 12);
+                    getBtnRecargar().setLocation(getPosX(), getPosY() - 45);
                 } catch (Exception e) {
                     System.out.println(e);
                 }
@@ -159,37 +161,191 @@ class Recorrido extends Thread implements ActionListener, Serializable {
     }
 
     public void detenerRecorrido() {
-        running = false;
+        setRunning(false);
     }
 
     private void actualizarRecorrido() {
-        String recorrido = String.format("%02d", kilometrosR);
-        this.viaje.lblRecorrido.setText("Recorrido= " + recorrido + "km");
-        String gasto = String.format("%.2f", capacidadTanque);
-        this.viaje.lblGasActual.setText("Gasolina actual= " + gasto);
+        String recorrido = String.format("%02d", getKilometrosR());
+        this.getViaje().lblRecorrido.setText("Recorrido= " + recorrido + "km");
+        String gasto = String.format("%.2f", getCapacidadTanque());
+        this.getViaje().lblGasActual.setText("Gasolina actual= " + gasto);
         System.out.println(recorrido);
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource() == btnRecargar) {
+        if (ae.getSource() == getBtnRecargar()) {
             for (int i = 0; i < Main.transportes.size(); i++) {
-                if (this.viaje.getTransporte().equals(Main.transportes.get(i).getTipoTransporte())) {
-                    capacidadTanque = Main.transportes.get(i).getCapacidadTanque();
+                if (this.getViaje().getTransporte().equals(Main.transportes.get(i).getTipoTransporte())) {
+                    setCapacidadTanque(Main.transportes.get(i).getCapacidadTanque());
                 }
             }
-            running = true;
+            setRunning(true);
             System.out.println("Se recargó");
-            btnRecargar.setVisible(false);
+            getBtnRecargar().setVisible(false);
             Thread recorridoThread = new Thread(this);
             recorridoThread.start();
-        } else if (ae.getSource() == btnRegresar) {
-            btnRegresar.setEnabled(false);
-            running = true;
-            parte1 = true;
+        } else if (ae.getSource() == getBtnRegresar()) {
+            getBtnRegresar().setEnabled(false);
+            setRunning(true);
+            setParte1(true);
             Thread recorridoThread = new Thread(this);
             recorridoThread.start();
         }
+    }
+
+    /**
+     * @return the viaje
+     */
+    public Viaje getViaje() {
+        return viaje;
+    }
+
+    /**
+     * @param viaje the viaje to set
+     */
+    public void setViaje(Viaje viaje) {
+        this.viaje = viaje;
+    }
+
+    /**
+     * @return the kilometrosR
+     */
+    public int getKilometrosR() {
+        return kilometrosR;
+    }
+
+    /**
+     * @param kilometrosR the kilometrosR to set
+     */
+    public void setKilometrosR(int kilometrosR) {
+        this.kilometrosR = kilometrosR;
+    }
+
+    /**
+     * @return the combustibleGastado
+     */
+    public float getCombustibleGastado() {
+        return combustibleGastado;
+    }
+
+    /**
+     * @param combustibleGastado the combustibleGastado to set
+     */
+    public void setCombustibleGastado(float combustibleGastado) {
+        this.combustibleGastado = combustibleGastado;
+    }
+
+    /**
+     * @return the running
+     */
+    public boolean isRunning() {
+        return running;
+    }
+
+    /**
+     * @param running the running to set
+     */
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
+
+    /**
+     * @return the posX
+     */
+    public int getPosX() {
+        return posX;
+    }
+
+    /**
+     * @param posX the posX to set
+     */
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    /**
+     * @return the posY
+     */
+    public int getPosY() {
+        return posY;
+    }
+
+    /**
+     * @param posY the posY to set
+     */
+    public void setPosY(int posY) {
+        this.posY = posY;
+    }
+
+    /**
+     * @return the capacidadTanque
+     */
+    public float getCapacidadTanque() {
+        return capacidadTanque;
+    }
+
+    /**
+     * @param capacidadTanque the capacidadTanque to set
+     */
+    public void setCapacidadTanque(float capacidadTanque) {
+        this.capacidadTanque = capacidadTanque;
+    }
+
+    /**
+     * @return the gastoKm
+     */
+    public float getGastoKm() {
+        return gastoKm;
+    }
+
+    /**
+     * @param gastoKm the gastoKm to set
+     */
+    public void setGastoKm(float gastoKm) {
+        this.gastoKm = gastoKm;
+    }
+
+    /**
+     * @return the btnRecargar
+     */
+    public JButton getBtnRecargar() {
+        return btnRecargar;
+    }
+
+    /**
+     * @param btnRecargar the btnRecargar to set
+     */
+    public void setBtnRecargar(JButton btnRecargar) {
+        this.btnRecargar = btnRecargar;
+    }
+
+    /**
+     * @return the btnRegresar
+     */
+    public JButton getBtnRegresar() {
+        return btnRegresar;
+    }
+
+    /**
+     * @param btnRegresar the btnRegresar to set
+     */
+    public void setBtnRegresar(JButton btnRegresar) {
+        this.btnRegresar = btnRegresar;
+    }
+
+    /**
+     * @return the parte1
+     */
+    public boolean isParte1() {
+        return parte1;
+    }
+
+    /**
+     * @param parte1 the parte1 to set
+     */
+    public void setParte1(boolean parte1) {
+        this.parte1 = parte1;
     }
 
 }
