@@ -33,6 +33,7 @@ class Viaje extends JFrame implements ActionListener,Serializable {
     String fechaInicio;
     String fechaFin;
     ImageIcon imgT;
+    private boolean viajeIniciado = false;
 
     public Viaje(int numeroViaje, String inicio, String destino, String transporte,float distancia) {
         this.inicio = inicio;
@@ -143,6 +144,7 @@ class Viaje extends JFrame implements ActionListener,Serializable {
         if (ae.getSource()==this.btnIniciar) {
             Recorrido recorrido = new Recorrido(this,this.getDistancia());
             Main.addRecorrido(recorrido);
+            setViajeIniciado(true);
             System.out.println("Se inicia recorrido");
             LocalDateTime horaInicio = LocalDateTime.now();
             DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
@@ -265,6 +267,20 @@ class Viaje extends JFrame implements ActionListener,Serializable {
      */
     public void setNumeroViaje(int numeroViaje) {
         this.numeroViaje = numeroViaje;
+    }
+
+    /**
+     * @return the viajeIniciado
+     */
+    public boolean isViajeIniciado() {
+        return viajeIniciado;
+    }
+
+    /**
+     * @param viajeIniciado the viajeIniciado to set
+     */
+    public void setViajeIniciado(boolean viajeIniciado) {
+        this.viajeIniciado = viajeIniciado;
     }
 
 }

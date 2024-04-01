@@ -14,13 +14,13 @@ import javax.swing.*;
  * @author nelson
  */
 public class IniciarViaje extends JFrame implements ActionListener {
-
+    
     JButton btnTodos, btnGenerarViaje, btnHistorial, btnSalir;
-
+    
     public IniciarViaje() {
         initComponents();
     }
-
+    
     public void initComponents() {
 
         /////////////////////////////////////// BOTONES ///////////////////////////////////////////
@@ -30,21 +30,21 @@ public class IniciarViaje extends JFrame implements ActionListener {
         btnTodos.setBackground(Color.blue);
         btnTodos.addActionListener(this);
         this.add(btnTodos);
-
+        
         btnGenerarViaje = new JButton("Generar otro viaje");
         btnGenerarViaje.setBounds(450, 450, 150, 30);
         btnGenerarViaje.setForeground(Color.WHITE);
         btnGenerarViaje.setBackground(new Color(103, 160, 0));
         btnGenerarViaje.addActionListener(this);
         this.add(btnGenerarViaje);
-
+        
         btnHistorial = new JButton("Ver historial");
         btnHistorial.setBounds(620, 450, 150, 30);
         btnHistorial.setForeground(Color.WHITE);
         btnHistorial.setBackground(new Color(103, 160, 0));
         btnHistorial.addActionListener(this);
         this.add(btnHistorial);
-
+        
         btnSalir = new JButton("Salir");
         btnSalir.setBounds(800, 450, 100, 30);
         btnSalir.setForeground(Color.WHITE);
@@ -67,7 +67,7 @@ public class IniciarViaje extends JFrame implements ActionListener {
             // Ajustar la posición Y para el siguiente panel
             y += 130;
         }
-
+        
         panelViajes.setPreferredSize(new Dimension(900, 130 * Main.viajes.size()));
         JScrollPane sp1 = new JScrollPane(panelViajes);
         sp1.setBounds(30, 58, 900, 385);
@@ -95,22 +95,25 @@ public class IniciarViaje extends JFrame implements ActionListener {
                 Main.EscribirArchivoRecorridos();
             }
         });
-
+        
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == btnTodos) {
             for (int i = 0; i < Main.viajes.size(); i++) {
-                Recorrido recorrido = new Recorrido(Main.viajes.get(i), Main.viajes.get(i).getDistancia());
-                Main.addRecorrido(recorrido);
-                System.out.println("Se inicia recorrido");
-                LocalDateTime horaInicio = LocalDateTime.now();
-                DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-                Main.viajes.get(i).fechaInicio = horaInicio.format(formato);
-                System.out.println("Fecha inicio: " + Main.viajes.get(i).fechaInicio);
-                Main.viajes.get(i).btnIniciar.setEnabled(false);
-                recorrido.start();
+                if (Main.viajes.get(i).isViajeIniciado() == false) {
+                    Recorrido recorrido = new Recorrido(Main.viajes.get(i), Main.viajes.get(i).getDistancia());
+                    Main.addRecorrido(recorrido);
+                    Main.viajes.get(i).setViajeIniciado(true);
+                    System.out.println("Se inicia recorrido");
+                    LocalDateTime horaInicio = LocalDateTime.now();
+                    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                    Main.viajes.get(i).fechaInicio = horaInicio.format(formato);
+                    System.out.println("Fecha inicio: " + Main.viajes.get(i).fechaInicio);
+                    Main.viajes.get(i).btnIniciar.setEnabled(false);
+                    recorrido.start();
+                }
             }
         } else if (ae.getSource() == btnGenerarViaje) {
             GenerarViaje newViaje = new GenerarViaje();
@@ -123,5 +126,5 @@ public class IniciarViaje extends JFrame implements ActionListener {
             MenuInicio newInicio = new MenuInicio();
         }
     }
-
+    
 }

@@ -27,7 +27,7 @@ class Recorrido extends Thread implements ActionListener, Serializable {
     private float gastoKm = 0;
     private JButton btnRecargar;
     private JButton btnRegresar;
-    private volatile boolean parte1 = false;
+    private boolean parte1 = false;
 
     public Recorrido(Viaje viaje, float Distancia) {
         System.out.println("Sí nos llegó señal");
@@ -95,7 +95,7 @@ class Recorrido extends Thread implements ActionListener, Serializable {
                         setKilometrosR(getKilometrosR() + 1);
                         setCombustibleGastado(getCombustibleGastado() + getGastoKm());
                     }
-                    if (getCapacidadTanque() <= 0) {
+                    if ((getCapacidadTanque() <= 0)||(getCapacidadTanque() < getGastoKm())) {
                         detenerRecorrido();
                         getBtnRecargar().setVisible(true);
                     }
@@ -108,7 +108,7 @@ class Recorrido extends Thread implements ActionListener, Serializable {
                     System.out.println(e);
                 }
             }
-        } else if (isParte1()) {
+        } else if (this.isParte1()) {
          
             while (isRunning()) {
                 try {
@@ -144,7 +144,7 @@ class Recorrido extends Thread implements ActionListener, Serializable {
                         setKilometrosR(getKilometrosR() + 1);
                         setCombustibleGastado(getCombustibleGastado() + getGastoKm());
                     }
-                    if (getCapacidadTanque() <= 0) {
+                    if ((getCapacidadTanque() <= 0)||(getCapacidadTanque() < getGastoKm())) {
                         detenerRecorrido();
                         getBtnRecargar().setVisible(true);
                     }
@@ -188,7 +188,7 @@ class Recorrido extends Thread implements ActionListener, Serializable {
         } else if (ae.getSource() == getBtnRegresar()) {
             getBtnRegresar().setEnabled(false);
             setRunning(true);
-            setParte1(true);
+            this.setParte1(true);
             Thread recorridoThread = new Thread(this);
             recorridoThread.start();
         }

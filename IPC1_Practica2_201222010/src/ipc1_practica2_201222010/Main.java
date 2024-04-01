@@ -47,6 +47,7 @@ public class Main {
         if (viajesRealizados == null) {
             viajesRealizados = new ArrayList<ViajeRealizado>();
         }
+        ViajeRealizado.numero=viajesRealizados.size()+1;
         if (recorridos == null) {
             //viajes = new ArrayList<Viaje>();
             recorridos = new ArrayList<Recorrido>();
