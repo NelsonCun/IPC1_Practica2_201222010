@@ -103,6 +103,7 @@ public class IniciarViaje extends JFrame implements ActionListener {
         if (ae.getSource() == btnTodos) {
             for (int i = 0; i < Main.viajes.size(); i++) {
                 Recorrido recorrido = new Recorrido(Main.viajes.get(i), Main.viajes.get(i).getDistancia());
+                Main.addRecorrido(recorrido);
                 System.out.println("Se inicia recorrido");
                 LocalDateTime horaInicio = LocalDateTime.now();
                 DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
