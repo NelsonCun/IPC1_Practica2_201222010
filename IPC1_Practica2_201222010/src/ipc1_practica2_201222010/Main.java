@@ -35,17 +35,17 @@ public class Main {
         addTransporte();
 
     }
-    
-    public static void addTransporte(){
-        Transporte moto1 = new Transporte("Motocicleta 1", (float) 0.1,6);
-        Transporte moto2 = new Transporte("Motocicleta 2", (float) 0.1,6);
-        Transporte moto3 = new Transporte("Motocicleta 3", (float) 0.1,6);
-        Transporte estandar1 = new Transporte("Vehículo estándar 1", (float) 0.3,10);
-        Transporte estandar2 = new Transporte("Vehículo estándar 2", (float) 0.3,10);
-        Transporte estandar3 = new Transporte("Vehículo estándar 3", (float) 0.3,10);
-        Transporte premium1 = new Transporte("Vehículo prémium 1", (float) 0.45,12);
-        Transporte premium2 = new Transporte("Vehículo prémium 2", (float) 0.45,12);
-        Transporte premium3 = new Transporte("Vehículo prémium 3", (float) 0.45,12);
+
+    public static void addTransporte() {
+        Transporte moto1 = new Transporte("Motocicleta 1", (float) 0.1, 6);
+        Transporte moto2 = new Transporte("Motocicleta 2", (float) 0.1, 6);
+        Transporte moto3 = new Transporte("Motocicleta 3", (float) 0.1, 6);
+        Transporte estandar1 = new Transporte("Vehículo estándar 1", (float) 0.3, 10);
+        Transporte estandar2 = new Transporte("Vehículo estándar 2", (float) 0.3, 10);
+        Transporte estandar3 = new Transporte("Vehículo estándar 3", (float) 0.3, 10);
+        Transporte premium1 = new Transporte("Vehículo prémium 1", (float) 0.45, 12);
+        Transporte premium2 = new Transporte("Vehículo prémium 2", (float) 0.45, 12);
+        Transporte premium3 = new Transporte("Vehículo prémium 3", (float) 0.45, 12);
         transportes.add(moto1);
         transportes.add(moto2);
         transportes.add(moto3);
@@ -97,34 +97,50 @@ public class Main {
         }
         return arregloLugares;
     }
-    
+
     //Listado de transportes
-    public static String[] Transportes(){
-        String[] arregloTransportes = new String[transportes.size()+1];
-        arregloTransportes[0]="Seleccionar";
+    public static String[] Transportes() {
+        ArrayList<String> transportesDisponibles = new ArrayList<>();
+
         for (int i = 0; i < transportes.size(); i++) {
-            arregloTransportes[i+1]=transportes.get(i).getTipoTransporte();
+            boolean utilizando = false;
+            for (int j = 0; j < viajes.size(); j++) {
+                if (transportes.get(i).getTipoTransporte().equals(viajes.get(j).getTransporte())) {
+                    utilizando = true;
+                    break;
+                }
+            }
+            if (!utilizando) {
+                transportesDisponibles.add(transportes.get(i).getTipoTransporte());
+            }
+        }
+
+        //Convertir el ArrayList transportesDisponibles a un arreglo
+        String[] arregloTransportes = new String[transportesDisponibles.size() + 1];
+        arregloTransportes[0] = "Seleccionar";
+        for (int i = 0; i < transportesDisponibles.size(); i++) {
+            arregloTransportes[i + 1] = transportesDisponibles.get(i);
         }
         return arregloTransportes;
     }
-    
-    public static void addViaje(Viaje viaje){
+
+    public static void addViaje(Viaje viaje) {
         viajes.add(viaje);
     }
-    
-    public static void addViajeRealizado(ViajeRealizado viaje){
+
+    public static void addViajeRealizado(ViajeRealizado viaje) {
         viajesRealizados.add(viaje);
     }
-    
-    public static Object[][] Historial(){
+
+    public static Object[][] Historial() {
         String[][] arregloHistorial = new String[viajesRealizados.size()][6];
         for (int i = 0; i < viajesRealizados.size(); i++) {
-            arregloHistorial[i][0] = ""+viajesRealizados.get(i).getId();
+            arregloHistorial[i][0] = "" + viajesRealizados.get(i).getId();
             arregloHistorial[i][1] = viajesRealizados.get(i).getTiempoInicio();
             arregloHistorial[i][2] = viajesRealizados.get(i).getTiempoFin();
-            arregloHistorial[i][3] = ""+viajesRealizados.get(i).getDistancia();
+            arregloHistorial[i][3] = "" + viajesRealizados.get(i).getDistancia();
             arregloHistorial[i][4] = viajesRealizados.get(i).getVehiculo();
-            arregloHistorial[i][5] = ""+viajesRealizados.get(i).getGasolina();
+            arregloHistorial[i][5] = "" + viajesRealizados.get(i).getGasolina();
         }
         return arregloHistorial;
     }
