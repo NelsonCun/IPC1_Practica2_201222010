@@ -1,10 +1,12 @@
 package ipc1_practica2_201222010;
 
+import java.io.Serializable;
+
 /**
  *
  * @author nelson
  */
-class ViajeRealizado {
+class ViajeRealizado implements Serializable {
     private int id;
     private String tiempoInicio;
     private String tiempoFin;

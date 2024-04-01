@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.*;
 
 public class GenerarViaje extends JFrame implements ActionListener {
@@ -104,6 +106,17 @@ public class GenerarViaje extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setVisible(true);
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Acciones a realizar cuando se cierra la ventana
+                System.out.println("La ventana se está cerrando...");
+                Main.EscribirArchivoHistorial();
+                Main.EscribirArchivoViajes();
+            }
+        });
+
 
     }
 

@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
@@ -33,11 +35,6 @@ public class HistorialViajes extends JFrame implements ActionListener {
         
         ////////////////////////////////// TABLA VIAJES ///////////////////////////////
         String[] titulos_v = {"Código", "Fecha y hora inicio","Fecha y hora fin","Distancia (km)","Vehículo","Gasolina consumida"};
-        //String[][] viajes = {{"001","03-05-2024 10:00","03-05-2024 12:00","35","Estándar","2"},
-          //  {"002","06-05-2024 08:00","06-05-2024 10:00","13","Moto","3"},
-        //{"003","06-05-2024 12:00","06-05-2024 13:00","5","Premium","1"},
-        //{"004","07-05-2024 13:00","07-05-2024 17:00","20","Moto","12"},
-        //{"005","07-05-2024 14:00","07-05-2024 20:00","27","Premium","15"}};
         historial = new JTable(Main.Historial(),titulos_v);
         DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
         for (int i = 0; i < titulos_v.length; i++) {
@@ -70,6 +67,17 @@ public class HistorialViajes extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setVisible(true);
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Acciones a realizar cuando se cierra la ventana
+                System.out.println("La ventana se está cerrando...");
+                Main.EscribirArchivoHistorial();
+                Main.EscribirArchivoViajes();
+            }
+        });
+
     }
 
     @Override

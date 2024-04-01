@@ -7,6 +7,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.*;
 
 /**
@@ -78,6 +80,17 @@ public class EditarDistancia extends JFrame implements ActionListener, KeyListen
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setVisible(true);
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Acciones a realizar cuando se cierra la ventana
+                System.out.println("La ventana se está cerrando...");
+                Main.EscribirArchivoHistorial();
+                Main.EscribirArchivoViajes();
+            }
+        });
+
     }
 
     @Override

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.ImageIcon;
@@ -14,7 +15,7 @@ import javax.swing.JLabel;
  *
  * @author nelson
  */
-class Recorrido extends Thread implements ActionListener {
+class Recorrido extends Thread implements ActionListener, Serializable {
 
     Viaje viaje;
     private int kilometrosR = 0;
@@ -107,6 +108,7 @@ class Recorrido extends Thread implements ActionListener {
                 }
             }
         } else if (parte1) {
+         
             while (running) {
                 try {
                     if (this.posX > 125) {

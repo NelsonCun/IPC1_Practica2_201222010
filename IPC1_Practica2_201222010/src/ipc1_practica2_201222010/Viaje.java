@@ -3,6 +3,7 @@ package ipc1_practica2_201222010;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.*;
@@ -11,7 +12,7 @@ import javax.swing.*;
  *
  * @author nelson
  */
-class Viaje extends JFrame implements ActionListener {
+class Viaje extends JFrame implements ActionListener,Serializable {
 
     private String transporte;
     private float distancia;
@@ -147,6 +148,7 @@ class Viaje extends JFrame implements ActionListener {
             fechaInicio = horaInicio.format(formato);
             
             System.out.println("Fecha inicio: "+ fechaInicio);
+            btnIniciar.setEnabled(false);
             
             recorrido.start();
         }

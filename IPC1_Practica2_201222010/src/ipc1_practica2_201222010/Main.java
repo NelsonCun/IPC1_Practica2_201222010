@@ -2,6 +2,11 @@ package ipc1_practica2_201222010;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,8 +26,8 @@ public class Main {
     static int ventanaAbierta = 0; //0: Menu inicio, 1: Generar viaje
     static ArrayList<Ruta> rutas = new ArrayList<>();
     static ArrayList<Transporte> transportes = new ArrayList<>();
-    static ArrayList<Viaje> viajes = new ArrayList<>();
-    static ArrayList<ViajeRealizado> viajesRealizados = new ArrayList<>();
+    static ArrayList<Viaje> viajes = new ArrayList<Viaje>();
+    static ArrayList<ViajeRealizado> viajesRealizados = new ArrayList<ViajeRealizado>();
 
     public static void main(String[] args) {
         try {
@@ -34,6 +39,22 @@ public class Main {
         Login login = new Login();
         addTransporte();
 
+        viajesRealizados = (ArrayList<ViajeRealizado>) LeerArchivoHistorial();
+        viajes = (ArrayList<Viaje>) LeerArchivoViajes();
+        // Validamos si animals no es nulo
+        if (viajesRealizados == null) {
+            viajesRealizados = new ArrayList<ViajeRealizado>();
+        }
+        if (viajes == null) {
+            viajes = new ArrayList<Viaje>();
+        }
+
+        for (Viaje viajex : viajes) {
+            Recorrido recorrido = new Recorrido(viajex, viajex.getDistancia());
+            Thread recorridoThread = new Thread(recorrido);
+
+            recorridoThread.start();
+        }
     }
 
     public static void addTransporte() {
@@ -143,6 +164,78 @@ public class Main {
             arregloHistorial[i][5] = "" + viajesRealizados.get(i).getGasolina();
         }
         return arregloHistorial;
+    }
+
+    public static void EscribirArchivoHistorial() {
+        // Serialización de la lista
+        try {
+            // Creamos el archivo binario en la ruta especificada
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("./Archivos/ViajesRealizados.bin"));
+            // Escribimos nuestro ArrayList de tipo Animal
+            out.writeObject(viajesRealizados);
+            // Cerramos el archivo
+            out.close();
+            System.out.println("***********************************************************************");
+            System.out.println("Lista de viajes realizados serializada correctamente.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("***********************************************************************");
+    }
+
+    public static Object LeerArchivoHistorial() {
+        // Deserialización de la lista
+        try {
+            // Abrimos el archivo binario en la ruta especificada
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream("./Archivos/ViajesRealizados.bin"));
+            // Leemos el objeto guardado (Arraylist de tipo Animal) y lo guardamos en un Arryalist del mismo tipo
+            ArrayList<ViajeRealizado> viajesRealizados = (ArrayList<ViajeRealizado>) in.readObject();
+            // Cerramos el archivo
+            in.close();
+            System.out.println("Lista de viajes realizados deserializada correctamente.");
+            // Retornamos el objeto
+            return viajesRealizados;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        // Si no existe ningun archivo o si ocurre un error, se retorna null
+        return null;
+    }
+
+    public static void EscribirArchivoViajes() {
+        // Serialización de la lista
+        try {
+            // Creamos el archivo binario en la ruta especificada
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("./Archivos/Viajes.bin"));
+            // Escribimos nuestro ArrayList de tipo Animal
+            out.writeObject(viajes);
+            // Cerramos el archivo
+            out.close();
+            System.out.println("***********************************************************************");
+            System.out.println("Lista de viajes en curso serializada correctamente.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("***********************************************************************");
+    }
+
+    public static Object LeerArchivoViajes() {
+        // Deserialización de la lista
+        try {
+            // Abrimos el archivo binario en la ruta especificada
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream("./Archivos/Viajes.bin"));
+            // Leemos el objeto guardado (Arraylist de tipo Animal) y lo guardamos en un Arryalist del mismo tipo
+            ArrayList<Viaje> viajes = (ArrayList<Viaje>) in.readObject();
+            // Cerramos el archivo
+            in.close();
+            System.out.println("Lista de viajes en curso deserializada correctamente.");
+            // Retornamos el objeto
+            return viajes;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        // Si no existe ningun archivo o si ocurre un error, se retorna null
+        return null;
     }
 
 }
