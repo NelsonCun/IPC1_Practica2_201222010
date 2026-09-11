@@ -1,3 +1,21 @@
-/IPC1_Practica2_201222010/nbproject/private/
-/IPC1_Practica2_201222010/build/
-/IPC1_Practica2_201222010/dist/
+# OS / editor artifacts
+.DS_Store
+**/.DS_Store
+.idea/
+.vscode/
+
+# NetBeans user-specific metadata
+**/nbproject/private/
+
+# Java build outputs
+**/build/
+**/dist/
+target/
+*.class
+
+# Generated application archives
+IPC1_Practica2_201222010/*.jar
+
+# Logs / temporary files
+*.log
+*.tmp
