@@ -120,15 +120,16 @@ public class Login extends JFrame implements ActionListener, FocusListener {
         } else if (ae.getSource() == loginButton) {
             String username = usernameField.getText();
             char[] password = passwordField.getPassword();
-            String pwd = new String(password);;
-            if (username.equals("admin") && pwd.equals("admin")) {
+            String pwd = new String(password);
+            String demoUser = System.getenv().getOrDefault("IPC1_TRAVEL_ADMIN_USER", "admin");
+            String demoPassword = System.getenv().getOrDefault("IPC1_TRAVEL_ADMIN_PASSWORD", "admin");
+            if (username.equals(demoUser) && pwd.equals(demoPassword)) {
                 MenuInicio newInicio = new MenuInicio();
                 this.dispose();
                 JOptionPane.showMessageDialog(null, "Bienvenido Administrador");
                 System.out.println("Bienvenido administrador");
             } else {
                 
-            System.out.println("username is: " + username + " pwd es: " + pwd);
                 JOptionPane.showMessageDialog(this, "El usuario o la contraseña son incorrectos", "ERROR", 0);
                         
             }
